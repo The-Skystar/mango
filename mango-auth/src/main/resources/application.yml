@@ -1,0 +1,57 @@
+server:
+  port: 9401
+spring:
+  profiles:
+    active: dev
+  application:
+    name: mango-oauth2-auth
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  datasource:
+    name: postgres
+    url: jdbc:postgresql://47.97.201.34:54320/quartz
+    username: postgres
+    password: admin_123
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.postgresql.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 60000
+    validationQuery: SELECT 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 150
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  redis:
+    database: 9
+    host: 47.97.201.34
+    port: 28736
+    timeout: 600000
+    lettuce:
+      pool:
+        max-active: 1000 #��������� ��ʹ�ø�ֵ��ʾû�����ƣ�
+        max-idle: 1000 #����������
+        max-wait: -1 #���ӵ����ȴ�������ʱ�� ��ʹ�ø�ֵ��ʾû�����ƣ�
+        min-idle: 0 #��С��������
+      shutdown-timeout: 4000 #�ر�ʱ�ĳ�ʱʱ��
+    password: 1Qaz2wsx@Redis
+    servlet:
+      multipart:
+        enabled: true
+        max-file-size: 300MB
+        max-request-size: 300MB
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

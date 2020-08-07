@@ -1,0 +1,129 @@
+spring:
+  application:
+    name: mango-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      #基于配置文件实现的跨域配置
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            exposedHeaders:
+              - content-type
+            allowedHeaders:
+              - content-type
+            allowCredentials: true
+            allowedMethods:
+              - GET
+              - OPTIONS
+              - PUT
+              - DELETE
+              - POST
+      #开启服务注册与发现的功能
+      discovery:
+        locator:
+          enabled: true
+      #路由
+      routes:
+        #路由标识
+        - id: mango-service-a
+          #目标服务器地址，lb:开头标识开启负载均衡
+          uri: lb://mango-service-a
+          #        uri: http://192.168.0.44:2001
+          #路由条件
+          predicates:
+            - Path=/service-a/**
+          #过滤器
+          filters:
+            #截取路径位数
+            - StripPrefix=1
+            - name: Retry
+              args:
+                #重试次数
+                retries: 3
+                #状态码配置，只有符合状态码的才会进行重试
+                series: SERVER_ERROR
+
+        - id: mango-service-b
+          uri: lb://mango-service-b
+          #        uri: http://192.168.0.44:2001
+          predicates:
+            - Path=/service-b/**
+          filters:
+            - StripPrefix=1
+          args:
+            #重试次数
+            retries: 3
+            #状态码配置，只有符合状态码的才会进行重试
+            series: SERVER_ERROR
+        - id: mango-oauth2-auth
+          uri: lb://mango-oauth2-auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: 'http://localhost:9401/rsa/publicKey'
+
+  redis:
+    database: 9
+    host: 47.97.201.34
+    port: 28736
+    timeout: 600000
+    lettuce:
+      pool:
+        max-active: 1000 #最大连接数 （使用负值表示没有限制）
+        max-idle: 1000 #最大空闲连接
+        max-wait: -1 #连接的最大等待阻塞的时间 （使用负值表示没有限制）
+        min-idle: 0 #最小空闲连接
+      shutdown-timeout: 4000 #关闭时的超时时间
+    password: 1Qaz2wsx@Redis
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 300MB
+      max-request-size: 300MB
+
+secure:
+  ignore:
+    urls: #请求白名单
+      - "/actuator/**"
+      - "/auth/oauth/token"
+      - "/**/v2/api-docs"
+      - "/favicon.ico"
+      - "/doc.html"
+      - "/swagger-resources/**"
+      - "/webjars/**"
+
+ribbon:
+  eureka:
+    enabled: false
+  eager-load:
+    enabled: true
+    clients: mango-service-a,mango-service-b,mango-oauth2-auth
+#负载均衡
+mango-service-a:
+  ribbon:
+    listOfServers: 127.0.0.1:2001,127.0.0.1:2003
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+
+management:
+  endpoints:
+    jmx:
+      exposure:
+        include: '*'
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  # Actuator Web 访问端口
+  server:
+    port: 3001
