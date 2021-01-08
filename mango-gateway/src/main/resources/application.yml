@@ -4,7 +4,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: 39.97.181.177:8848
     gateway:
       #基于配置文件实现的跨域配置
       globalcors:
@@ -73,8 +73,8 @@ spring:
 
   redis:
     database: 9
-    host: 47.97.201.34
-    port: 28736
+    host: 39.97.181.177
+    port: 6377
     timeout: 600000
     lettuce:
       pool:
@@ -83,7 +83,7 @@ spring:
         max-wait: -1 #连接的最大等待阻塞的时间 （使用负值表示没有限制）
         min-idle: 0 #最小空闲连接
       shutdown-timeout: 4000 #关闭时的超时时间
-    password: 1Qaz2wsx@Redis
+    password: CyRedis
   servlet:
     multipart:
       enabled: true

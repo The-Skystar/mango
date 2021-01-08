@@ -8,7 +8,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: 39.97.181.177:8848
   datasource:
     name: postgres
     url: jdbc:postgresql://47.97.201.34:54320/quartz
@@ -33,22 +33,22 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
   redis:
     database: 9
-    host: 47.97.201.34
-    port: 28736
+    host: 39.97.181.177
+    port: 6379
     timeout: 600000
     lettuce:
       pool:
-        max-active: 1000 #��������� ��ʹ�ø�ֵ��ʾû�����ƣ�
-        max-idle: 1000 #����������
-        max-wait: -1 #���ӵ����ȴ�������ʱ�� ��ʹ�ø�ֵ��ʾû�����ƣ�
-        min-idle: 0 #��С��������
-      shutdown-timeout: 4000 #�ر�ʱ�ĳ�ʱʱ��
-    password: 1Qaz2wsx@Redis
-    servlet:
-      multipart:
-        enabled: true
-        max-file-size: 300MB
-        max-request-size: 300MB
+        max-active: 1000 #最大连接数 （使用负值表示没有限制）
+        max-idle: 1000 #最大空闲连接
+        max-wait: -1 #连接的最大等待阻塞的时间 （使用负值表示没有限制）
+        min-idle: 0 #最小空闲连接
+      shutdown-timeout: 4000 #关闭时的超时时间
+    password: CyRedis
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 300MB
+      max-request-size: 300MB
 
 management:
   endpoints:

@@ -1,6 +1,5 @@
 package com.tss.mangogateway.config.auth;
 
-import cn.hutool.core.util.ArrayUtil;
 import com.tss.mangogateway.constant.AuthConstant;
 import com.tss.mangogateway.filter.IgnoreUrlsRemoveJwtFilter;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * 资源服务器配置
- * Created by macro on 2020/6/19.
+ * Created by yangxiangjun on 2020/6/19.
  */
 @AllArgsConstructor
 @Configuration
@@ -41,12 +40,12 @@ public class ResourceServerConfig {
         //对白名单路径，直接移除JWT请求头
         http.addFilterBefore(ignoreUrlsRemoveJwtFilter, SecurityWebFiltersOrder.AUTHENTICATION);
         http.authorizeExchange()
-                .pathMatchers(ArrayUtil.toArray(ignoreUrlsConfig.getUrls(),String.class)).permitAll()//白名单配置
+                .pathMatchers(ignoreUrlsConfig.getUrls()).permitAll()//白名单配置
                 .anyExchange().access(authorizationManager)//鉴权管理器配置
                 .and().exceptionHandling()
                 .accessDeniedHandler(restfulAccessDeniedHandler)//处理未授权
                 .authenticationEntryPoint(restAuthenticationEntryPoint)//处理未认证
-                .and().csrf().disable();
+                .and().csrf().disable();//禁用 CSRF
         return http.build();
     }
 

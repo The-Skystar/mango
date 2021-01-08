@@ -1,7 +1,7 @@
 package com.tss.mangogateway.constant;
 
 /**
- * Created by macro on 2020/6/19.
+ * Created by yangxiangjun on 2020/6/19.
  */
 public class AuthConstant {
 

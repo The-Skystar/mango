@@ -2,7 +2,7 @@ package com.tss.mangoauth.constant;
 
 /**
  * Redis常量
- * Created by macro on 2020/6/19.
+ * Created by yangxiangjun on 2020/6/19.
  */
 public class RedisConstant {
 

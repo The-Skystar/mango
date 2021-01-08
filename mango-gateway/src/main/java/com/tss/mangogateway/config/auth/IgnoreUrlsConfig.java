@@ -6,11 +6,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 /**
  * 网关白名单配置
- * Created by macro on 2020/6/17.
+ * Created by yangxiangjun on 2020/6/17.
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -18,5 +16,5 @@ import java.util.List;
 @ConfigurationProperties(prefix="secure.ignore")
 @RefreshScope
 public class IgnoreUrlsConfig {
-    private List<String> urls;
+    private String[] urls;
 }
