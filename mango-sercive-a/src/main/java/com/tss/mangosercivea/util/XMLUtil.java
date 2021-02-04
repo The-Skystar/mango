@@ -1,10 +1,10 @@
 package com.tss.mangosercivea.util;
 
-import com.tss.mangosercivea.manager.template.TemplateParam;
-import com.tss.mangosercivea.manager.template.WordXMLTemplate;
+import cn.hutool.core.collection.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
@@ -69,17 +69,63 @@ public class XMLUtil {
         return flag;
     }
 
-    public static void main(String[] args) throws DocumentException {
-        WordXMLTemplate wordXMLTemplate = new WordXMLTemplate();
-        Document document = parse("C:/Users/mango/Documents/项目资料/投资决策审批表.xml");
-        List<TemplateParam> strings = wordXMLTemplate.analysisParam(document);
-//        strings.forEach(System.out::println);
-        Document normalization = wordXMLTemplate.normalization(document, strings);
-        wordXMLTemplate.supplement(normalization,strings);
-//        String text = "砂浆${gsuagu}绝对是卡";
-//        int startIndex = (text.indexOf("${") == -1 ? 0 : text.indexOf("{")) + (text.indexOf("$[") == -1 ? 0 : text.indexOf("[")) + 1;
-//        int endIndex = (text.indexOf("}") == -1 ? 0 : text.indexOf("}")) + (text.indexOf("]") == -1 ? 0 : text.indexOf("]"));
-//        text = text.substring(startIndex,endIndex);
-//        System.out.println(text);
+    /**
+     * 将element嵌套进nest ， 切nest占位原来element的位置
+     * @param nest
+     * @param element
+     */
+    public static void nestSection(Element nest , Element element) {
+        List<Element> children = element.getParent().elements();
+        Integer index = 0;
+        if (CollectionUtil.isNotEmpty(children)) {
+            for (Element brotherElement : children) {
+                if (element.equals(brotherElement)) {
+                    break;
+                }
+                index++;
+            }
+        }
+        nest.add(element.createCopy());
+        children.set(index, nest);
+    }
+
+    /**
+     * 获取当前节点前一个兄弟节点
+     * @param element
+     * @return
+     */
+    public static Element selectPreElement(Element element) {
+        return selectDriftElement(-1, element);
+    }
+
+    /**
+     * 获取当前节点后一个兄弟节点
+     * @param element
+     * @return
+     */
+    public static Element selectNextElement(Element element) {
+        return selectDriftElement(1, element);
+    }
+
+    public static Element selectDriftElement(Integer index , Element element) {
+        Element parent = element.getParent();
+        if (parent == null) {
+            return null;
+        }
+        List<Element> elements = parent.elements();
+        Integer indexOf = 0;
+        for (Element brothElement : elements) {
+            if (element.equals(brothElement)) {
+                break;
+            }
+            indexOf++;
+        }
+        if (indexOf >= elements.size()) {
+            throw new RuntimeException("异常");
+        }
+        if (indexOf + index >= elements.size()) {
+            throw new RuntimeException("定位element失败，数组越界");
+        }
+        return elements.get(indexOf+index);
     }
 }

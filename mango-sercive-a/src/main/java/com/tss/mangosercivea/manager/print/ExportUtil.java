@@ -6,7 +6,9 @@ import freemarker.template.Version;
 import org.springframework.util.ResourceUtils;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,7 +29,7 @@ public class ExportUtil {
         // 设置FreeMarker生成Word文档所需要的模板的路径
         configuration.setDirectoryForTemplateLoading(new File("C:/Users/mango/Documents/项目资料/"));
         // 设置FreeMarker生成Word文档所需要的模板
-        Template t = configuration.getTemplate("template.ftl", "UTF-8");
+        Template t = configuration.getTemplate("demo.ftl", "UTF-8");
         // 创建一个Word文档的输出流
         Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(fileName)), "UTF-8"));
         //FreeMarker使用Word模板和数据生成Word文档
@@ -50,9 +52,22 @@ public class ExportUtil {
          * 该用户信息用于Word文档中FreeMarker普通文本处理
          * 模板文档占位符${name}中的name即指定使用这里的name属性的值"用户1"替换
          */
-        dataMap.put("name", "用户1");
-        dataMap.put("sex", "男");
-        dataMap.put("age", 18);
+        Map<String,Object> map = new HashMap<>();
+        List<Map<String,Object>> list = new ArrayList<>();
+        map.put("name", "用户1");
+        map.put("sex", "男");
+        map.put("age", 20);
+        map.put("birth","2018-12-12");
+        list.add(map);
+
+        Map<String,Object> map1 = new HashMap<>();
+        map1.put("name", "用户2");
+        map1.put("sex", "女");
+        map1.put("age", 18);
+        map1.put("birth","2020-12-12");
+        list.add(map1);
+
+        dataMap.put("user",list);
         generateWord(dataMap,"C:/Users/mango/Documents/项目资料/人员.docx");
     }
 }

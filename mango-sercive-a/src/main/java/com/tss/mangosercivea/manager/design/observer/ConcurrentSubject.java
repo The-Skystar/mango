@@ -1,6 +1,6 @@
 package com.tss.mangosercivea.manager.design.observer;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Vector;
 import java.util.concurrent.CompletableFuture;

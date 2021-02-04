@@ -1,12 +1,15 @@
 package com.tss.mangosercivea.manager.template;
 
+import com.tss.mangosercivea.manager.template.enums.ParamType;
+
 /**
  * Created by yangxiangjun on 2021/1/8.
  */
 public class TemplateParam {
-    String name;
-    String ascription;
-    boolean loop;
+    private String name;
+    private String ascription;
+    private String path;
+    private ParamType paramType;
 
     public String getName() {
         return name;
@@ -24,23 +27,37 @@ public class TemplateParam {
         this.ascription = ascription;
     }
 
-    public boolean getLoop() {
-        return loop;
+    public String getPath() {
+        return path;
     }
 
-    public void setLoop(boolean loop) {
-        this.loop = loop;
+    public void setPath(String path) {
+        this.path = path;
     }
 
-    public static TemplateParam buildSingleParam(String text){
+    public ParamType getParamType() {
+        return paramType;
+    }
+
+    public void setParamType(ParamType paramType) {
+        this.paramType = paramType;
+    }
+
+    public static TemplateParam buildParam(String text, String path){
         TemplateParam templateParam = new TemplateParam();
         templateParam.setAscription("");
         templateParam.setName(text);
-        templateParam.setLoop(false);
+        templateParam.setPath(path);
         return templateParam;
     }
 
-    public static TemplateParam buildCollParam(String text){
+    public static TemplateParam buildSingleParam(String text, String path){
+        TemplateParam templateParam = buildParam(text, path);
+        templateParam.setParamType(ParamType.SINGLE);
+        return templateParam;
+    }
+
+    public static TemplateParam buildCollParam(String text,String path){
         TemplateParam templateParam = new TemplateParam();
         String[] split = text.split("\\.");
         if (split.length != 2) {
@@ -48,7 +65,8 @@ public class TemplateParam {
         }
         templateParam.setAscription(split[0]);
         templateParam.setName(split[1]);
-        templateParam.setLoop(true);
+        templateParam.setParamType(ParamType.LOOP);
+        templateParam.setPath(path);
         return templateParam;
     }
 
@@ -57,7 +75,8 @@ public class TemplateParam {
         return "TemplateParam{" +
                 "name='" + name + '\'' +
                 ", ascription='" + ascription + '\'' +
-                ", loop=" + loop +
+                ", path='" + path + '\'' +
+                ", paramType=" + paramType +
                 '}';
     }
 }
