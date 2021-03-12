@@ -1,6 +1,6 @@
 # 应用服务 WEB 访问端口
 server:
-  port: 3000
+  port: 2020
 spring:
   application:
     name: mango-gateway
@@ -9,6 +9,6 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 39.97.181.177:8848
+        server-addr: 127.0.0.1:8848
         file-extension: yaml
         refresh: true

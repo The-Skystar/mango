@@ -11,9 +11,8 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
 public class UserDTO{
-    private Long id;
+    private String id;
     private String username;
     private String password;
     private Integer status;

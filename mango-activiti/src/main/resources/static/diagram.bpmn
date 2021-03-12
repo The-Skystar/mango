@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:activiti="http://activiti.org/bpmn" id="sample-diagram" targetNamespace="http://activiti.org/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="Process_1" isExecutable="true">
+    <bpmn2:startEvent id="start" name="审批流开始">
+      <bpmn2:outgoing>Flow_1d3fxvp</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:userTask id="step_1" name="复核" activiti:candidateUsers="IU">
+      <bpmn2:incoming>Flow_1d3fxvp</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_19664c9</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:userTask id="step_2" name="审批" activiti:candidateUsers="IU">
+      <bpmn2:incoming>Flow_19664c9</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_007fpok</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:userTask id="step_3" name="批后处理" activiti:candidateUsers="李知恩">
+      <bpmn2:incoming>Flow_007fpok</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_00ch88a</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:endEvent id="stop" name="审批流完成">
+      <bpmn2:incoming>Flow_00ch88a</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="Flow_1d3fxvp" sourceRef="start" targetRef="step_1" />
+    <bpmn2:sequenceFlow id="Flow_19664c9" sourceRef="step_1" targetRef="step_2" />
+    <bpmn2:sequenceFlow id="Flow_007fpok" sourceRef="step_2" targetRef="step_3" />
+    <bpmn2:sequenceFlow id="Flow_00ch88a" sourceRef="step_3" targetRef="stop" />
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNEdge id="Flow_1d3fxvp_di" bpmnElement="Flow_1d3fxvp">
+        <di:waypoint x="448" y="258" />
+        <di:waypoint x="630" y="258" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19664c9_di" bpmnElement="Flow_19664c9">
+        <di:waypoint x="730" y="258" />
+        <di:waypoint x="860" y="258" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_007fpok_di" bpmnElement="Flow_007fpok">
+        <di:waypoint x="960" y="258" />
+        <di:waypoint x="1080" y="258" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00ch88a_di" bpmnElement="Flow_00ch88a">
+        <di:waypoint x="1180" y="258" />
+        <di:waypoint x="1332" y="258" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="start">
+        <dc:Bounds x="412" y="240" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="403" y="283" width="56" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_12fj932_di" bpmnElement="step_1">
+        <dc:Bounds x="630" y="218" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1n9vdqv_di" bpmnElement="step_2">
+        <dc:Bounds x="860" y="218" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1vc29eu_di" bpmnElement="step_3">
+        <dc:Bounds x="1080" y="218" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1qsb03l_di" bpmnElement="stop">
+        <dc:Bounds x="1332" y="240" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1323" y="283" width="56" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

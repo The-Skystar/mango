@@ -1,12 +1,6 @@
-server:
-  port: 2001
 spring:
   application:
     name: mango-service-a
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
 #    sentinel:
 #      transport:
 #        dashboard: localhost:7070
@@ -27,45 +21,52 @@ spring:
 #            # 读取培训文件类型为json
 #            data-type: json
   datasource:
-    name: postgres
-    url: jdbc:postgresql://47.97.201.34:54320/quartz
-    username: postgres
-    password: admin_123
+    name: mysql
     type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: org.postgresql.Driver
-    filters: stat
-    maxActive: 20
-    initialSize: 1
-    maxWait: 60000
-    minIdle: 1
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 60000
-    validationQuery: SELECT 'x'
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: true
-    maxOpenPreparedStatements: 150
+    druid:
+      business:
+        url: jdbc:mysql://127.0.0.1:3306/mango?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+        username: root
+        password: root
+        driver-class-name: com.mysql.cj.jdbc.Driver
+      quartz:
+        url: jdbc:mysql://127.0.0.1:3306/quartz?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+        username: root
+        password: root
+        driver-class-name: com.mysql.cj.jdbc.Driver
+      filters: stat
+      maxActive: 20
+      initialSize: 1
+      maxWait: 60000
+      minIdle: 1
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 60000
+      validationQuery: SELECT 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 150
 #  elasticsearch:
 #    rest:
 #      uris: http://192.168.200.169:9500
 #      username: elasticsearch
 #      password: elasticsearch
-  redis:
-    host: 39.97.181.177
-    port: 6377
-    password: 123456
-    database: 9
-    timeout: 1000
-    jedis:
-      pool:
-        max-idle: 500
-        min-idle: 50
-        max-wait: -1
-        max-active: -1
-    cache:
-      redis:
-        time-to-live: -1
+#  redis:
+#    host: 127.0.0.1
+#    port: 6377
+#    password: 123456
+#    database: 9
+#    timeout: 1000
+#    jedis:
+#      pool:
+#        max-idle: 500
+#        min-idle: 50
+#        max-wait: -1
+#        max-active: -1
+#    cache:
+#      redis:
+#        time-to-live: -1
 #    sentinel:
 #      master: mymaster
 #      nodes: 127.0.0.1:24391,127.0.0.1:24392,127.0.0.1:24393
@@ -75,29 +76,29 @@ spring:
 #      timeout: 1000
 
   #quartz 任务调度框架
-#  quartz:
-#    job-store-type: jdbc #数据库方式
-#    jdbc:
-#      initialize-schema: never #不初始化表结构
-#    properties:
-#      org:
-#        quartz:
-#          #          scheduler:
-#          instanceId: AUTO #默认主机名和时间戳生成实例ID,可以是任何字符串，但对于所有调度程序来说，必须是唯一的 对应qrtz_scheduler_state INSTANCE_NAME字段
-#          instanceName: clusteredScheduler #quartzScheduler
-#          jobStore:
-#            acquireTriggersWithinLock: true   #在锁定状态下获取触发器
-#            class: org.quartz.impl.jdbcjobstore.JobStoreTX #持久化配置
-#            driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate #我们仅为数据库制作了特定于数据库的代理 PostgreSQLDelegate
-#            useProperties: false #以指示JDBCJobStore将JobDataMaps中的所有值都作为字符串，因此可以作为名称 - 值对存储而不是在BLOB列中以其序列化形式存储更多复杂的对象。从长远来看，这是更安全的，因为您避免了将非String类序列化为BLOB的类版本问题。
-#            tablePrefix: QRTZ_  #数据库表前缀
-#            misfireThreshold: 6000 #在被认为“失火”之前，调度程序将“容忍”一个Triggers将其下一个启动时间通过的毫秒数。默认值（如果您在配置中未输入此属性）为60000（60秒）。
-#            clusterCheckinInterval: 1000 #设置此实例“检入”*与群集的其他实例的频率（以毫秒为单位）。影响检测失败实例的速度。
-#            isClustered: true #打开群集功能,集群模式需要在多台服务器上做时间同步或者使用zookeeper去解决
-#          threadPool: #连接池
-#            class: org.quartz.simpl.SimpleThreadPool
-#            threadCount: 10 #最大线程个数
-#            threadPriority: 5 #线程优先级
-#            threadsInheritContextClassLoaderOfInitializingThread: true
-#      startup-delay: 30
-#      overwrite-existing-jobs: true
+  quartz:
+    job-store-type: jdbc #数据库方式
+    jdbc:
+      initialize-schema: ALWAYS #不初始化表结构
+    properties:
+      org:
+        quartz:
+          #          scheduler:
+          instanceId: AUTO #默认主机名和时间戳生成实例ID,可以是任何字符串，但对于所有调度程序来说，必须是唯一的 对应qrtz_scheduler_state INSTANCE_NAME字段
+          instanceName: clusteredScheduler #quartzScheduler
+          jobStore:
+            acquireTriggersWithinLock: true   #在锁定状态下获取触发器
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX #持久化配置
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate #我们仅为数据库制作了特定于数据库的代理 PostgreSQLDelegate
+            useProperties: false #以指示JDBCJobStore将JobDataMaps中的所有值都作为字符串，因此可以作为名称 - 值对存储而不是在BLOB列中以其序列化形式存储更多复杂的对象。从长远来看，这是更安全的，因为您避免了将非String类序列化为BLOB的类版本问题。
+            tablePrefix: QRTZ_  #数据库表前缀
+            misfireThreshold: 6000 #在被认为“失火”之前，调度程序将“容忍”一个Triggers将其下一个启动时间通过的毫秒数。默认值（如果您在配置中未输入此属性）为60000（60秒）。
+            clusterCheckinInterval: 1000 #设置此实例“检入”*与群集的其他实例的频率（以毫秒为单位）。影响检测失败实例的速度。
+            isClustered: true #打开群集功能,集群模式需要在多台服务器上做时间同步或者使用zookeeper去解决
+          threadPool: #连接池
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 10 #最大线程个数
+            threadPriority: 5 #线程优先级
+            threadsInheritContextClassLoaderOfInitializingThread: true
+      startup-delay: 30
+      overwrite-existing-jobs: true

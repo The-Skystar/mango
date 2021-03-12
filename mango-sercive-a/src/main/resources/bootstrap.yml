@@ -1,8 +1,8 @@
+server:
+  port: 2022
 spring:
   application:
     name: mango-service-a
-  profiles:
-    active: peer1
   cloud:
     nacos:
       config:

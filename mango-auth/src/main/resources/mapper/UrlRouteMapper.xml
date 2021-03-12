@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tss.mangoauth.mapper.UrlRouteMapper">
+
+    <resultMap id="UrlAccessBOMap" type="com.tss.mangoauth.domain.UrlAccessBO">
+        <id column="url_id" property="urlId"></id>
+        <result column="route" property="route"></result>
+        <result column="url_name" property="urlName"></result>
+        <collection property="roles" ofType="com.tss.mangoauth.entity.RoleEntity">
+            <id column="role_id" property="roleId"></id>
+            <result column="role_code" property="roleCode"></result>
+            <result column="role_name" property="roleName"></result>
+            <result column="role_status" property="roleStatus"></result>
+        </collection>
+    </resultMap>
+
+    <select id="getUrlAccess" resultMap="UrlAccessBOMap">
+        SELECT
+            t.url_id,
+            t.route,
+            t.url_name,
+            a.role_id,
+            a.role_code,
+            a.role_name,
+            a.role_status
+        FROM
+            sys_url_route t
+                LEFT JOIN
+            sys_url_access m ON t.url_id = m.url_id
+                LEFT JOIN
+            sys_role_access n ON m.access_id = n.access_id
+                LEFT JOIN
+            sys_role a ON a.role_id = n.role_id
+    </select>
+</mapper>

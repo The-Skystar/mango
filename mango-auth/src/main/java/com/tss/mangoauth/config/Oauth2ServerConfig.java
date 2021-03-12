@@ -1,7 +1,7 @@
 package com.tss.mangoauth.config;
 
 import com.tss.mangoauth.component.JwtTokenEnhancer;
-import com.tss.mangoauth.service.UserServiceImpl;
+import com.tss.mangoauth.service.impl.UserDetailServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +36,7 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     private ClientParameter clientParmter;
 
     private final PasswordEncoder passwordEncoder;
-    private final UserServiceImpl userDetailsService;
+    private final UserDetailServiceImpl userDetailsService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenEnhancer jwtTokenEnhancer;
 

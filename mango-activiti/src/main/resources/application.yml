@@ -1,0 +1,38 @@
+spring:
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  datasource:
+    name: mysql
+    url: jdbc:mysql://127.0.0.1:3306/activiti?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      filters: stat
+      maxActive: 20
+      initialSize: 1
+      maxWait: 60000
+      minIdle: 1
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 60000
+      validationQuery: SELECT 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 150
+
+  activiti:
+    database-schema-update: false
+    db-history-used: true
+    history-level: audit
+
+#mybatis-plus配置控制台打印完整带参数SQL语句
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
