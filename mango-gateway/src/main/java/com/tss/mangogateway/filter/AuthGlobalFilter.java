@@ -1,9 +1,9 @@
 package com.tss.mangogateway.filter;
 
+import com.alibaba.fastjson.JSONObject;
 import com.nimbusds.jose.JWSObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -14,6 +14,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.text.ParseException;
+import java.util.Objects;
 
 /**
  * 将登录用户的JWT转化成用户信息的全局过滤器
@@ -36,7 +37,14 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             JWSObject jwsObject = JWSObject.parse(realToken);
             String userStr = jwsObject.getPayload().toString();
             LOGGER.info("AuthGlobalFilter.filter() user:{}",userStr);
-            ServerHttpRequest request = exchange.getRequest().mutate().header("user", userStr).build();
+            UserInfo userInfo = JSONObject.parseObject(userStr, UserInfo.class);
+
+            ServerHttpRequest request = exchange.getRequest().mutate()
+                    .header(UserInfoContext.USER_ID, userInfo.getUserId())
+                    .header(UserInfoContext.USER_CODE, userInfo.getUserCode())
+                    .header(UserInfoContext.USER_NAME, userInfo.getUsername())
+                    .header(UserInfoContext.STATUS, Objects.isNull(userInfo.getStatus()) ? null : userInfo.getStatus().toString())
+                    .build();
             exchange = exchange.mutate().request(request).build();
         } catch (ParseException e) {
             e.printStackTrace();

@@ -2,14 +2,13 @@ package com.tss.mangoactiviti.controller;
 
 import com.tss.mangoactiviti.manager.WorkflowManager;
 import com.tss.mangoactiviti.model.ProcessDef;
-import org.activiti.engine.repository.ProcessDefinition;
+import com.tss.mangocommon.id.IdWorker;
+import com.tss.mangocommon.context.UserInfoContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +23,8 @@ import java.util.Map;
 public class WorkFlowController {
     @Autowired
     private WorkflowManager workflowManager;
+    @Autowired
+    private IdWorker idWorker;
 
     @RequestMapping("deploy")
     public String createDeploy(){
@@ -33,6 +34,8 @@ public class WorkFlowController {
 
     @RequestMapping("queryDefinition")
     public List<ProcessDef> queryDefinition(){
+        System.out.println(UserInfoContext.getUserInfoContext().toString());
+        System.out.println(idWorker.nextId());
         List<ProcessDef> processDefinitions = workflowManager.queryProcessDefinitions();
         return processDefinitions;
     }

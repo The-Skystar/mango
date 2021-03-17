@@ -18,7 +18,11 @@ public class SecurityUser implements UserDetails {
     /**
      * ID
      */
-    private String id;
+    private String userId;
+    /**
+     * ID
+     */
+    private String userCode;
     /**
      * 用户名
      */
@@ -30,7 +34,7 @@ public class SecurityUser implements UserDetails {
     /**
      * 用户状态
      */
-    private Boolean enabled;
+    private Integer status;
     /**
      * 权限数据
      */
@@ -41,10 +45,11 @@ public class SecurityUser implements UserDetails {
     }
 
     public SecurityUser(UserDTO userDTO) {
-        this.setId(userDTO.getId());
-        this.setUsername(userDTO.getUsername());
+        this.setUserId(userDTO.getUserId());
+        this.setUserCode(userDTO.getUserCode());
+        this.setUsername(userDTO.getUserName());
         this.setPassword(userDTO.getPassword());
-        this.setEnabled(userDTO.getStatus() == 1);
+        this.setStatus(userDTO.getStatus());
         if (userDTO.getRoles() != null) {
             authorities = new ArrayList<>();
             userDTO.getRoles().forEach(item -> authorities.add(new SimpleGrantedAuthority(item)));
@@ -83,7 +88,7 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return this.status == 1;
     }
 
 }

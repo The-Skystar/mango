@@ -21,6 +21,11 @@ public class UserEntity implements Serializable {
     private String userId;
 
     /**
+     * 用户ID
+     */
+    private String userCode;
+
+    /**
      * 用户名称
      */
     private String userName;
@@ -51,6 +56,14 @@ public class UserEntity implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(String userCode) {
+        this.userCode = userCode;
     }
 
     public String getUserName() {
@@ -95,13 +108,14 @@ public class UserEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
-                ", userId=" + userId +
-                ", userName=" + userName +
-                ", gender=" + gender +
-                ", password=" + password +
+        return "UserEntity{" +
+                "userId='" + userId + '\'' +
+                ", userCode='" + userCode + '\'' +
+                ", userName='" + userName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", password='" + password + '\'' +
                 ", createTime=" + createTime +
                 ", status=" + status +
-                "}";
+                '}';
     }
 }

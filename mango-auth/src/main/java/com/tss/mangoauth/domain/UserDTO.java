@@ -12,8 +12,9 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class UserDTO{
-    private String id;
-    private String username;
+    private String userId;
+    private String userCode;
+    private String userName;
     private String password;
     private Integer status;
     private List<String> roles;

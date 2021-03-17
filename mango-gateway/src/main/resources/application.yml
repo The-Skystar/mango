@@ -36,12 +36,12 @@ spring:
           filters:
             #截取路径位数
             - StripPrefix=1
-            - name: Retry
-              args:
-                #重试次数
-                retries: 3
-                #状态码配置，只有符合状态码的才会进行重试
-                series: SERVER_ERROR
+#            - name: Retry
+#              args:
+#                #重试次数
+#                retries: 0
+#                #状态码配置，只有符合状态码的才会进行重试
+#                series: SERVER_ERROR
 
         - id: mango-service-b
           uri: lb://mango-service-b

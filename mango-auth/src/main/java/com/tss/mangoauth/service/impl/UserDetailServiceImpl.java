@@ -8,6 +8,7 @@ import com.tss.mangoauth.entity.RoleEntity;
 import com.tss.mangoauth.entity.UserEntity;
 import com.tss.mangoauth.mapper.RoleMapper;
 import com.tss.mangoauth.mapper.UserMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -52,10 +53,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException(MessageConstant.USERNAME_PASSWORD_ERROR);
         }
         UserDTO userDTO = new UserDTO();
-        userDTO.setId(findUser.getUserId());
-        userDTO.setUsername(findUser.getUserName());
+        BeanUtils.copyProperties(findUser,userDTO);
         userDTO.setPassword(passwordEncoder.encode(findUser.getPassword()));
-        userDTO.setStatus(findUser.getStatus());
 
         //获取用户角色
         List<RoleEntity> roles = roleMapper.queryRoles(findUser.getUserId());

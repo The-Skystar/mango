@@ -1,7 +1,13 @@
 package com.tss.mangoauth.controller;
 
+import com.tss.mangoauth.domain.UserDTO;
+import com.tss.mangoauth.mapper.UserMapper;
+import com.tss.mangocommon.web.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -15,10 +21,12 @@ import org.springframework.stereotype.Controller;
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
+    private UserMapper userMapper;
 
-
-
-
-
-
+    @GetMapping("/test")
+    public Result<UserDTO> test(){
+        userMapper.query(new Date());
+        return null;
+    }
 }

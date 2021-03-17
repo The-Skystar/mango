@@ -1,7 +1,8 @@
 spring:
-  application:
-    name: mango-service-a
-#    sentinel:
+  worker:
+    datacenterId: 1
+    machineId: 1
+  #    sentinel:
 #      transport:
 #        dashboard: localhost:7070
 #        client-ip: 192.168.0.44
@@ -47,7 +48,11 @@ spring:
       testOnReturn: false
       poolPreparedStatements: true
       maxOpenPreparedStatements: 150
-#  elasticsearch:
+      web-stat-filter:
+        enabled: false
+      stat-view-servlet:
+        enabled: false
+  #  elasticsearch:
 #    rest:
 #      uris: http://192.168.200.169:9500
 #      username: elasticsearch
